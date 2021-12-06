@@ -50,3 +50,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Personal config files
+life-assistant-project/PersonalConfig.h
