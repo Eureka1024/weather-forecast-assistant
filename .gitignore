@@ -53,3 +53,4 @@ dkms.conf
 
 # Personal config files
 life-assistant-project/PersonalConfig.h
+build/

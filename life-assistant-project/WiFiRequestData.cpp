@@ -9,7 +9,7 @@ const int httpPort = 80;                    //将要连接的服务器端口
 // 心知天气HTTP请求所需信息
 String privateKey = PRIVATE_KEY;      //填写心知天气的私钥
 String location = "shenzhen";         // 城市
-
+WiFiClient client;
 void parseInfo(WiFiClient client, enum dataType type);
 
 void connectWiFi(void){
@@ -30,24 +30,24 @@ void connectWiFi(void){
   Serial.println (WiFi.localIP()); // prints out the device's IP address
 }
 
+
 // 向心知天气服务器服务器请求信息并对信息进行解析
 void httpRequestData(enum dataType type){
-  WiFiClient client;
-
   String reqRes;
   if(type == WEATHER){
-    // 建立心知天气API当前天气请求资源地址
+    //请求当前天气
     reqRes = "/v3/weather/now.json?key=" + privateKey +
-                    + "&location=" + location ;
+                    + "&location=" + location + "&language=en";
   }
   else if (type == AIR){
-    //请求空气质量
+    //请求当前城市的空气质量
     reqRes = "/v3/air/now.json?key=" + privateKey +
-                  + "&location=" + location ;
+                  + "&location=" + location + "&language=en";
   }
   else{
+    //请求未来三天的天气情况
     reqRes = "/v3/weather/daily.json?key=" + privateKey +
-                  + "&location=" + location + "&start=1&days=3";
+                  + "&location=" + location + "&start=1&days=3"+ "&language=en";
   }
                              
   // 建立http请求信息
@@ -86,7 +86,9 @@ void httpRequestData(enum dataType type){
 }
 
 
-// 利用ArduinoJson库解析心知天气响应信息
+/*
+ *利用ArduinoJson库解析心知天气响应信息
+ */
 void parseInfo(WiFiClient client, enum dataType type){
   const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_OBJECT_SIZE(1) + 2*JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(6) + 1500;//原来210,要分配够
   DynamicJsonDocument doc(capacity);
@@ -94,9 +96,11 @@ void parseInfo(WiFiClient client, enum dataType type){
   if(type == WEATHER){
     JsonObject results_0 = doc["results"][0];
     JsonObject results_0_now = results_0["now"];
-    weather.nowWeather = results_0_now["text"]; // "天气"
-    weather.nowTemperature = results_0_now["temperature"]; // "温度"
-    weather.nowHumidity = results_0_now["humidity"]; // "湿度"
+
+    strcpy(weather.nowWeather, results_0_now["text"]);//"天气"
+    strcpy(weather.nowTemperature, results_0_now["temperature"]);//"温度"
+    strcpy(weather.nowHumidity, results_0_now["humidity"]);// "湿度"
+
     Serial.println(F("======Weahter Now======="));
     Serial.print(F("Weather Now: "));
     Serial.println(weather.nowWeather);
@@ -112,7 +116,8 @@ void parseInfo(WiFiClient client, enum dataType type){
     JsonObject results_0_air_city = results_0_air["city"];
     const char* results_0_air_city_aqi = results_0_air_city["aqi"]; // "空气质量指数(AQI)是描述空气质量状况的定量指数"
     const char* results_0_air_city_pm25 = results_0_air_city["pm25"];    //PM2.5颗粒物（粒径小于等于2.5μm）1小时平均值。单位：μg/m³
-    weather.airQuality = results_0_air_city["quality"]; //空气质量类别，有“优、良、轻度污染、中度污染、重度污染、严重污染”6类
+
+    strcpy(weather.airQuality, results_0_air_city["quality"]);//空气质量类别，有“优、良、轻度污染、中度污染、重度污染、严重污染”6类
 
     Serial.println(F("======Air Now======="));
     Serial.print(F("AQI Now: "));

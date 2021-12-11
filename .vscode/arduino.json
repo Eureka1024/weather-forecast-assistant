@@ -1,0 +1,7 @@
+{
+    "port": "COM19",
+    "configuration": "role=master,cache=on,speed=120,opt=small,maxqspi=50,usbstack=arduino,debug=off,txrxled=on",
+    "board": "Seeeduino:samd:seeed_wio_terminal",
+    "sketch": "life-assistant-project\\life-assistant-project.ino",
+	"output": "./build"
+}

@@ -1,6 +1,7 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
+//WIFI和http请求数据
 #include "rpcWiFi.h"
 #include <WiFiClientSecure.h>
 #include <ArduinoJson.h>
@@ -21,10 +22,10 @@ struct futureWeatherDef{
 };
 
 struct weatherDef{
-  const char* nowWeather;     //当前天气
-  const char* nowTemperature; //当前温度
-  const char* nowHumidity;    //当前湿度
-  const char* airQuality;     //空气质量
+  char nowWeather[10];     //当前天气
+  char nowTemperature[5]; //当前温度
+  char nowHumidity[5];    //当前湿度
+  char airQuality[10];     //空气质量
   struct futureWeatherDef futureDays[3];//未来三天的天气
 };
 
