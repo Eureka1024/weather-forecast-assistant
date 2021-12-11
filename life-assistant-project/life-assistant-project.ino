@@ -9,12 +9,17 @@
  *    Seeed_Arduino_FS
  *    Seeed_Arduino_SFUD
  *    ArduinoJson
+ *    Seeed_Arduino_RTC
+ *    millisDelay
  */
 #include "common.h"
 #include "TFT_eSPI.h"
 #include "Seeed_FS.h" //Including SD card library
 #include "RawImage.h"  //Including image processing library
 #include "Free_Fonts.h" //include the header file
+#include <millisDelay.h>
+#include "RTC_SAMD51.h"
+#include "DateTime.h"
 
 void GetWeatherData(void);
 
@@ -30,6 +35,7 @@ void setup() {
     if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI)) {
         while (1);
     }
+
     tft.begin();
     tft.setRotation(3);
  
@@ -39,17 +45,20 @@ void setup() {
     tft.setFreeFont(&FreeSansBoldOblique12pt7b); //select Free, Sans, Bold, Oblique, 12pt.
     //tft.drawString("Sans Serif 12pt",70,80);//prints string at (70,80)
     connectWiFi();
-    last_time_get_data = millis();
+    last_time_get_data = millis(); //用于获取温度的间隔时间标记
+
+    setTime();
 }
  
 void loop() {
     GetWeatherData();
+    updateNTPtime();
 }
 
-//每隔20s获取温度数据
+//每隔10s获取温度数据
 void GetWeatherData(void)
 {
-    if (millis()- last_time_get_data >= 10000)//20s
+    if (millis()- last_time_get_data >= 10000)//10s
     {
       last_time_get_data = millis();
         
