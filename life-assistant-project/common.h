@@ -14,6 +14,15 @@ enum dataType{
   THREE_DAYS
 };
 
+enum buttonType{
+  WIO_BUTTON_NONE = 0,
+  WIO_5S_UP_EVENT,
+  WIO_5S_DOWN_EVENT,
+  WIO_5S_LEFT_EVENT,
+  WIO_5S_RIGHT_EVENT,
+  WIO_5S_PRESS_EVENT
+};
+
 struct futureWeatherDef{
   const char* weather;
   const char* humidity;
@@ -35,10 +44,14 @@ struct timeDef{
 };
 
 extern struct weatherDef weather;
-
+extern struct timeDef systemTime;
 void connectWiFi(void);
 void httpRequestData(enum dataType type);
 
 void setTime(void);
 void updateNTPtime();
+
+void initButton();
+void checkButton();
+
 #endif

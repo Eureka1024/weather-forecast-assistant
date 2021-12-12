@@ -37,8 +37,9 @@ void setTime(void) {
     devicetime = getNTPtime();
  
     // check if rtc present
-    if (devicetime == 0) {
+    while (devicetime == 0) {
         Serial.println("Failed to get time from network time server.");
+        devicetime = getNTPtime();
     }
  
     if (!rtc.begin()) {
@@ -59,9 +60,10 @@ void setTime(void) {
  
 void updateNTPtime() {
     //获取系统使用的时间
+    now = rtc.now();
     String str = now.timestamp(DateTime::TIMESTAMP_FULL);
     strncpy(systemTime.nowDay, str.c_str(), 10); //日期
-    strncpy(systemTime.nowTime, (str.c_str())+12, 8); //时间
+    strncpy(systemTime.nowTime, (str.c_str())+11, 8); //时间
 
     if (updateDelay.justFinished()) { // 12 hour loop
         // repeat timer
