@@ -5,6 +5,14 @@
 #include "rpcWiFi.h"
 #include <WiFiClientSecure.h>
 #include <ArduinoJson.h>
+#include "TFT_eSPI.h"
+#include "Seeed_FS.h" //Including SD card library
+#include "RawImage.h"  //Including image processing library
+#include "Free_Fonts.h" //include the header file
+#include <millisDelay.h>
+#include "RTC_SAMD51.h"
+#include "DateTime.h"
+#include"Histogram.h" //include histogram library
 
 #include "PersonalConfig.h"
 
@@ -24,10 +32,10 @@ enum buttonType{
 };
 
 struct futureWeatherDef{
-  const char* weather;
-  const char* humidity;
-  const char* lowTemperature;
-  const char* highTemperature;
+  char weather[10];
+  char humidity[5];
+  char lowTemperature[5];
+  char highTemperature[5];
 };
 
 struct weatherDef{
@@ -35,6 +43,8 @@ struct weatherDef{
   char nowTemperature[5]; //当前温度
   char nowHumidity[5];    //当前湿度
   char airQuality[10];    //空气质量
+  char PM2_5[5];          //PM2.5
+  char aqi[5];            //aqi指数
   struct futureWeatherDef futureDays[3];//未来三天的天气
 };
 
@@ -53,5 +63,10 @@ void updateNTPtime();
 
 void initButton();
 void checkButton();
+extern enum buttonType buttonState;
+
+
+void initMenu(void);
+void SwitchMenu(void);
 
 #endif

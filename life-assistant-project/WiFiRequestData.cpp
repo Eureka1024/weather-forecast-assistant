@@ -1,6 +1,11 @@
 
 #include "common.h"
 
+/*
+ * Light rain //小雨
+ * 
+ */
+
 const char* ssid = WIFI_SSID; //wifi 账号
 const char* password = WIFI_PASSWORD; //wifi 密码
 const char* host = "api.seniverse.com";     //将要连接的服务器地址  
@@ -118,7 +123,8 @@ void parseInfo(WiFiClient client, enum dataType type){
     const char* results_0_air_city_pm25 = results_0_air_city["pm25"];    //PM2.5颗粒物（粒径小于等于2.5μm）1小时平均值。单位：μg/m³
 
     strcpy(weather.airQuality, results_0_air_city["quality"]);//空气质量类别，有“优、良、轻度污染、中度污染、重度污染、严重污染”6类
-
+    strcpy(weather.aqi, results_0_air_city["aqi"]); //aqi 指数
+    strcpy(weather.PM2_5, results_0_air_city["pm25"]); //pm2.5
     Serial.println(F("======Air Now======="));
     Serial.print(F("AQI Now: "));
     Serial.println(results_0_air_city_aqi);
@@ -136,10 +142,14 @@ void parseInfo(WiFiClient client, enum dataType type){
     //未来三天
     for (int index = 0; index < 3; index++){
       results_daily = results_0_daily_array[index];
-      weather.futureDays[index].weather = results_daily["text_day"]; //天气
-      weather.futureDays[index].highTemperature = results_daily["high"];   //最高温    
-      weather.futureDays[index].lowTemperature  = results_daily["low"];    //最低温
-      weather.futureDays[index].humidity  = results_daily["humidity"];//湿度
+      strcpy(weather.futureDays[index].weather, results_daily["text_day"]);// "天气"
+      strcpy(weather.futureDays[index].highTemperature, results_daily["high"]);// "最高温"
+      strcpy(weather.futureDays[index].lowTemperature, results_daily["low"]); //最低温
+      strcpy(weather.futureDays[index].humidity, results_daily["humidity"]); //湿度
+      // weather.futureDays[index].weather = results_daily["text_day"]; //天气
+      // weather.futureDays[index].highTemperature = results_daily["high"];   //最高温    
+      // weather.futureDays[index].lowTemperature  = results_daily["low"];    //最低温
+      // weather.futureDays[index].humidity  = results_daily["humidity"];//湿度
 
       Serial.print(F("====== 第"));
       Serial.print(index);
