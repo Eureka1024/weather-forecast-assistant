@@ -21,6 +21,7 @@ TFT_eSPI tft;
 int8_t  menu_index = 0;   //当前状态
 long last_time_lcd;
 long last_time_lcd1;
+long last_time_sec;
 
 /* 菜单界面切换控制函数 */
 void SwitchMenu(void)
@@ -62,6 +63,7 @@ void initMenu(void)
     menu_index = 0; //默认在主界面
     last_time_lcd = millis();
     last_time_lcd1 = millis();
+    last_time_sec = millis();
     //Initialise SD card
     if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI)) {
         while (1);
@@ -72,6 +74,22 @@ void initMenu(void)
 
 
 void nowWeatherGUI(void){
+
+    if (millis() - last_time_sec >= 1000)//1s
+    {
+        last_time_sec = millis();
+
+        //时间
+        tft.setTextColor(TFT_BLACK);
+        tft.setFreeFont(FSSBO9);
+        tft.drawString(systemTime.nowDay,1,10);
+        // tft.drawString("12-13",1,10);
+        tft.setTextColor(TFT_PURPLE);
+        tft.setFreeFont(&FreeSansBoldOblique24pt7b);
+        // tft.drawString("21:05",30,45);
+        tft.drawString(systemTime.nowTime,0,45);
+    }
+
     if (millis() - last_time_lcd >= 5000)//5s
     {
         last_time_lcd = millis();
@@ -80,6 +98,16 @@ void nowWeatherGUI(void){
         //背景图片
         drawImage<uint8_t>("picture/Background.bmp", 0, 0); 
 
+        //时间
+        tft.setTextColor(TFT_BLACK);
+        tft.setFreeFont(FSSBO9);
+        tft.drawString(systemTime.nowDay,1,10);
+        // tft.drawString("12-13",1,10);
+        tft.setTextColor(TFT_PURPLE);
+        tft.setFreeFont(&FreeSansBoldOblique24pt7b);
+        // tft.drawString("21:05",30,45);
+        tft.drawString(systemTime.nowTime,0,45);
+        
         //天气
         // String filePath = "picture/";
         // filePath += weather.nowWeather;
@@ -120,19 +148,13 @@ void nowWeatherGUI(void){
         strLcd += " ug/m3";
         tft.drawString(strLcd,15,170);
 
-        strLcd = weather.airQuality;
-        tft.setFreeFont(&FreeSansBoldOblique12pt7b);
-        // strLcd += "Good";
-        tft.drawString(strLcd,60,190);
+        strLcd = "air quality: ";
+        tft.drawString(strLcd,15,190);
 
-        //时间
-        tft.setFreeFont(FSSBO9);
-        tft.drawString(systemTime.nowDay,1,10);
-        // tft.drawString("12-13",1,10);
-        tft.setTextColor(TFT_PURPLE);
-        tft.setFreeFont(&FreeSansBoldOblique24pt7b);
-        // tft.drawString("21:05",30,45);
-        tft.drawString(systemTime.nowTime,0,45);
+        tft.setFreeFont(&FreeSansBoldOblique12pt7b);
+        strLcd = weather.airQuality;
+        // strLcd += "Good";
+        tft.drawString(strLcd,110,190);
     }
 }
 
