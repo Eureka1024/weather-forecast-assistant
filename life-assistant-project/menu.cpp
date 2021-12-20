@@ -123,7 +123,7 @@ void nowWeatherGUI(void){
         strLcd = weather.airQuality;
         tft.setFreeFont(&FreeSansBoldOblique12pt7b);
         // strLcd += "Good";
-        tft.drawString(strLcd,40,190);
+        tft.drawString(strLcd,60,190);
 
         //时间
         tft.setFreeFont(FSSBO9);
