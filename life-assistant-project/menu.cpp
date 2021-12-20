@@ -97,7 +97,7 @@ void nowWeatherGUI(void){
         tft.drawString("Shenzhen",245,105);
 
         //温度
-        tft.setTextColor(TFT_CYAN);
+        tft.setTextColor(TFT_BLUE);
         tft.setFreeFont(FMBO18); //18pt
         strLcd = weather.nowTemperature;
         // strLcd = "25";
@@ -109,22 +109,21 @@ void nowWeatherGUI(void){
         // strLcd = "20";
         tft.drawString(strLcd,100,115);
 
-
         //空气质量
         tft.setFreeFont(&FreeSansBoldOblique9pt7b);
-        strLcd = "aqi:";
+        strLcd = "aqi: ";
         strLcd += weather.PM2_5;
         tft.drawString(strLcd,15,150);
 
-        strLcd = "pm2.5:";
+        strLcd = "pm2.5: ";
         strLcd += weather.aqi;
-        strLcd += "ug/m3";
-        tft.drawString(strLcd,80,150);
+        strLcd += " ug/m3";
+        tft.drawString(strLcd,15,170);
 
         strLcd = weather.airQuality;
         tft.setFreeFont(&FreeSansBoldOblique12pt7b);
         // strLcd += "Good";
-        tft.drawString(strLcd,40,180);
+        tft.drawString(strLcd,40,190);
 
         //时间
         tft.setFreeFont(FSSBO9);
