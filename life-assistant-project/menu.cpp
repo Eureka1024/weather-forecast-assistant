@@ -132,7 +132,7 @@ void nowWeatherGUI(void){
         tft.setTextColor(TFT_PURPLE);
         tft.setFreeFont(&FreeSansBoldOblique24pt7b);
         // tft.drawString("21:05",30,45);
-        tft.drawString(systemTime.nowTime,30,45);
+        tft.drawString(systemTime.nowTime,0,45);
     }
 }
 
