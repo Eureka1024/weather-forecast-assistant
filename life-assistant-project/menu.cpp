@@ -90,7 +90,7 @@ void nowWeatherGUI(void){
         tft.drawString(systemTime.nowTime,0,45);
     }
 
-    if (millis() - last_time_lcd >= 5000)//5s
+    if (millis() - last_time_lcd >= 20000)//5s
     {
         last_time_lcd = millis();
         String strLcd;
@@ -107,12 +107,12 @@ void nowWeatherGUI(void){
         tft.setFreeFont(&FreeSansBoldOblique24pt7b);
         // tft.drawString("21:05",30,45);
         tft.drawString(systemTime.nowTime,0,45);
-        
+
         //天气
-        // String filePath = "picture/";
-        // filePath += weather.nowWeather;
-        // filePath += ".bmp";
-        // drawImage<uint8_t>((const char*)filePath, 220, 0); //天气图片
+        String filePath = "picture/";
+        filePath += weather.nowWeather;
+        filePath += ".bmp";
+        drawImage<uint8_t>(filePath.c_str(), 220, 0); //天气图片
         tft.setTextColor(TFT_ORANGE); 
         tft.setFreeFont(&FreeSansBoldOblique9pt7b); //select Free, Sans, Bold, Oblique, 12pt.
         strLcd = weather.nowWeather;
