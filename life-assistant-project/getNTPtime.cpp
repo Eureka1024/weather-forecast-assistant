@@ -65,25 +65,25 @@ void updateNTPtime() {
     strncpy(systemTime.nowDay, str.c_str(), 10); //日期
     strncpy(systemTime.nowTime, (str.c_str())+11, 8); //时间
 
-    if (updateDelay.justFinished()) { // 12 hour loop
-        // repeat timer
-        updateDelay.repeat(); // repeat
+    // if (updateDelay.justFinished()) { // 12 hour loop
+    //     // repeat timer
+    //     updateDelay.repeat(); // repeat
  
-        // update rtc time
-        devicetime = getNTPtime();
-        if (devicetime == 0) {
-            Serial.println("Failed to get time from network time server.");
-        }
-        else {
-            rtc.adjust(DateTime(devicetime));
-            Serial.println("");
-            Serial.println("rtc time updated.");
-            // get and print the adjusted rtc time
-            now = rtc.now();
-            Serial.print("Adjusted RTC time is: ");
-            Serial.println(now.timestamp(DateTime::TIMESTAMP_FULL));
-        }
-    }
+    //     // update rtc time
+    //     devicetime = getNTPtime();
+    //     if (devicetime == 0) {
+    //         Serial.println("Failed to get time from network time server.");
+    //     }
+    //     else {
+    //         rtc.adjust(DateTime(devicetime));
+    //         Serial.println("");
+    //         Serial.println("rtc time updated.");
+    //         // get and print the adjusted rtc time
+    //         now = rtc.now();
+    //         Serial.print("Adjusted RTC time is: ");
+    //         Serial.println(now.timestamp(DateTime::TIMESTAMP_FULL));
+    //     }
+    // }
 }
  
  

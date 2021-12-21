@@ -11,6 +11,7 @@
 /*
  * Light rain   //小雨
  * Overcast     //阴天
+ * Clear        //晴
  */
 #include "common.h"
 
@@ -80,17 +81,17 @@ void nowWeatherGUI(void){
         last_time_sec = millis();
 
         //时间
+        //覆盖时间，相当于更新
+        drawImage<uint8_t>("picture/timeBackground.bmp", 0, 45);
         tft.setTextColor(TFT_BLACK);
         tft.setFreeFont(FSSBO9);
         tft.drawString(systemTime.nowDay,1,10);
-        // tft.drawString("12-13",1,10);
         tft.setTextColor(TFT_PURPLE);
         tft.setFreeFont(&FreeSansBoldOblique24pt7b);
-        // tft.drawString("21:05",30,45);
         tft.drawString(systemTime.nowTime,0,45);
     }
 
-    if (millis() - last_time_lcd >= 20000)//5s
+    if (millis() - last_time_lcd >= 20000)//20s
     {
         last_time_lcd = millis();
         String strLcd;
@@ -99,13 +100,12 @@ void nowWeatherGUI(void){
         drawImage<uint8_t>("picture/Background.bmp", 0, 0); 
 
         //时间
+        drawImage<uint8_t>("picture/timeBackground.bmp", 0, 45);//覆盖时间，相当于更新
         tft.setTextColor(TFT_BLACK);
         tft.setFreeFont(FSSBO9);
         tft.drawString(systemTime.nowDay,1,10);
-        // tft.drawString("12-13",1,10);
         tft.setTextColor(TFT_PURPLE);
         tft.setFreeFont(&FreeSansBoldOblique24pt7b);
-        // tft.drawString("21:05",30,45);
         tft.drawString(systemTime.nowTime,0,45);
 
         //天气
@@ -166,4 +166,3 @@ void ForecastWeatherGUI(void)
 
     }
 }
-

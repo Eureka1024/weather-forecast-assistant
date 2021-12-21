@@ -12,6 +12,7 @@
  *    Seeed_Arduino_RTC
  *    millisDelay
  *    Seeed_Arduino_Histogram
+ *    MsTimer2
  */
 #include "common.h"
 
@@ -29,6 +30,12 @@ void setup() {
 
     setTime();
     initButton();
+
+    //先获取一次天气数据
+    httpRequestData(WEATHER);//请求当前天气 
+    httpRequestData(AIR);//请求空气质量
+    httpRequestData(THREE_DAYS);//请求未来三天的天气
+
     initMenu();
 }
  
@@ -43,7 +50,7 @@ void loop() {
 //每隔20s获取温度数据
 void GetWeatherData(void)
 {
-    if (millis()- last_time_get_data >= 20000)//20s
+    if (millis() - last_time_get_data >= 80000)//80s
     {
       last_time_get_data = millis();
         
