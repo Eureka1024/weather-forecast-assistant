@@ -32,7 +32,8 @@ enum buttonType{
 };
 
 struct futureWeatherDef{
-  char weather[10];
+  char date[11];
+  char weather[12];
   char humidity[5];
   char lowTemperature[5];
   char highTemperature[5];

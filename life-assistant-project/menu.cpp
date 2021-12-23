@@ -41,6 +41,8 @@ void SwitchMenu(void)
         }
 
         buttonState = WIO_BUTTON_NONE;//清除状态
+
+        last_time_lcd -= 20000;//快速减少刷新时间
     }
 
     switch (menu_index)
@@ -163,6 +165,44 @@ void ForecastWeatherGUI(void)
     if (millis() - last_time_lcd1 >= 10000)//1s
     {
         last_time_lcd1 = millis();
+
+        String strLcd;
+        long i = 0;
+
+        //背景图片
+        drawImage<uint8_t>("picture/Sn.bmp", 0, 0); 
+
+        for (int index=0; index<3; index++)
+        {
+            if(index == 0) i=0;
+            if(index == 1) i=80;
+            if(index == 2) i=160;
+            //日期
+            tft.setTextColor(TFT_PURPLE);
+            tft.setFreeFont(&FreeSansBoldOblique12pt7b);
+            strLcd = weather.futureDays[index].date;
+            tft.drawString(strLcd,0,0+i);
+            tft.setFreeFont(&FreeSansBoldOblique9pt7b);
+            //湿度
+            strLcd = "Humidity: ";
+            strLcd += weather.futureDays[index].humidity;
+            strLcd += "%";
+            tft.drawString(strLcd,0,30+i);
+            //温度
+            strLcd = "Temperature: ";
+            strLcd += weather.futureDays[index].lowTemperature;
+            strLcd += "~";
+            strLcd += weather.futureDays[index].highTemperature;
+            strLcd += " C";
+            tft.drawString(strLcd,0,50+i);
+            //天气
+            String filePath = "picture/";
+            filePath += weather.futureDays[index].weather;
+            filePath += ".bmp";
+            drawImage<uint8_t>(filePath.c_str(), 200, 0+i); //天气图片
+            strLcd = weather.futureDays[index].weather;
+            tft.drawString(strLcd,220,50+i);
+        }
 
     }
 }

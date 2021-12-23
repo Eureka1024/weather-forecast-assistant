@@ -47,7 +47,7 @@ void loop() {
 }
 
 
-//每隔20s获取温度数据
+//每隔80s获取温度数据
 void GetWeatherData(void)
 {
     if (millis() - last_time_get_data >= 80000)//80s

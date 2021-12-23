@@ -142,14 +142,11 @@ void parseInfo(WiFiClient client, enum dataType type){
     //未来三天
     for (int index = 0; index < 3; index++){
       results_daily = results_0_daily_array[index];
+      strcpy(weather.futureDays[index].date, results_daily["date"]);// "日期"
       strcpy(weather.futureDays[index].weather, results_daily["text_day"]);// "天气"
       strcpy(weather.futureDays[index].highTemperature, results_daily["high"]);// "最高温"
       strcpy(weather.futureDays[index].lowTemperature, results_daily["low"]); //最低温
       strcpy(weather.futureDays[index].humidity, results_daily["humidity"]); //湿度
-      // weather.futureDays[index].weather = results_daily["text_day"]; //天气
-      // weather.futureDays[index].highTemperature = results_daily["high"];   //最高温    
-      // weather.futureDays[index].lowTemperature  = results_daily["low"];    //最低温
-      // weather.futureDays[index].humidity  = results_daily["humidity"];//湿度
 
       Serial.print(F("====== 第"));
       Serial.print(index);
